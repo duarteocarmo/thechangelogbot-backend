@@ -5,32 +5,179 @@
 #    pip-compile --output-file=requirements.txt pyproject.toml
 #
 anyio==3.6.2
-    # via starlette
+    # via
+    #   httpcore
+    #   starlette
+certifi==2023.7.22
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
+charset-normalizer==3.2.0
+    # via requests
 click==8.1.3
-    # via uvicorn
+    # via
+    #   nltk
+    #   uvicorn
 fastapi==0.92.0
     # via thechangelogbot (pyproject.toml)
+filelock==3.12.2
+    # via
+    #   huggingface-hub
+    #   torch
+    #   transformers
+fsspec==2023.6.0
+    # via huggingface-hub
+gitdb==4.0.10
+    # via gitpython
+gitpython==3.1.32
+    # via thechangelogbot (pyproject.toml)
+grpcio==1.56.2
+    # via
+    #   grpcio-tools
+    #   qdrant-client
+grpcio-tools==1.56.2
+    # via qdrant-client
 h11==0.14.0
-    # via uvicorn
+    # via
+    #   httpcore
+    #   uvicorn
+h2==4.1.0
+    # via httpx
+hpack==4.0.0
+    # via h2
+httpcore==0.17.3
+    # via httpx
+httpx[http2]==0.24.1
+    # via qdrant-client
+huggingface-hub==0.16.4
+    # via
+    #   sentence-transformers
+    #   transformers
+hyperframe==6.0.1
+    # via h2
 idna==3.4
-    # via anyio
+    # via
+    #   anyio
+    #   httpx
+    #   requests
+jinja2==3.1.2
+    # via torch
+joblib==1.3.1
+    # via
+    #   nltk
+    #   scikit-learn
+loguru==0.7.0
+    # via thechangelogbot (pyproject.toml)
+markupsafe==2.1.3
+    # via jinja2
+mpmath==1.3.0
+    # via sympy
+networkx==3.1
+    # via torch
+nltk==3.8.1
+    # via sentence-transformers
 numpy==1.24.2
-    # via pandas
+    # via
+    #   pandas
+    #   qdrant-client
+    #   scikit-learn
+    #   scipy
+    #   sentence-transformers
+    #   thechangelogbot (pyproject.toml)
+    #   torchvision
+    #   transformers
+packaging==23.1
+    # via
+    #   huggingface-hub
+    #   transformers
 pandas==1.5.3
     # via thechangelogbot (pyproject.toml)
+pillow==10.0.0
+    # via torchvision
+portalocker==2.7.0
+    # via qdrant-client
+protobuf==4.23.4
+    # via grpcio-tools
 pydantic==1.10.5
-    # via fastapi
+    # via
+    #   fastapi
+    #   qdrant-client
 python-dateutil==2.8.2
     # via pandas
 pytz==2022.7.1
     # via pandas
+pyyaml==6.0.1
+    # via
+    #   huggingface-hub
+    #   transformers
+qdrant-client==1.3.1
+    # via thechangelogbot (pyproject.toml)
+regex==2023.6.3
+    # via
+    #   nltk
+    #   transformers
+requests==2.31.0
+    # via
+    #   huggingface-hub
+    #   torchvision
+    #   transformers
+safetensors==0.3.1
+    # via transformers
+scikit-learn==1.3.0
+    # via sentence-transformers
+scipy==1.11.1
+    # via
+    #   scikit-learn
+    #   sentence-transformers
+sentence-transformers==2.2.2
+    # via thechangelogbot (pyproject.toml)
+sentencepiece==0.1.99
+    # via sentence-transformers
 six==1.16.0
     # via python-dateutil
+smmap==5.0.0
+    # via gitdb
 sniffio==1.3.0
-    # via anyio
+    # via
+    #   anyio
+    #   httpcore
+    #   httpx
 starlette==0.25.0
     # via fastapi
+sympy==1.12
+    # via torch
+threadpoolctl==3.2.0
+    # via scikit-learn
+tokenizers==0.13.3
+    # via transformers
+torch==2.0.1
+    # via
+    #   sentence-transformers
+    #   torchvision
+torchvision==0.15.2
+    # via sentence-transformers
+tqdm==4.65.0
+    # via
+    #   huggingface-hub
+    #   nltk
+    #   sentence-transformers
+    #   thechangelogbot (pyproject.toml)
+    #   transformers
+transformers==4.31.0
+    # via sentence-transformers
 typing-extensions==4.5.0
-    # via pydantic
+    # via
+    #   huggingface-hub
+    #   pydantic
+    #   qdrant-client
+    #   torch
+urllib3==1.26.16
+    # via
+    #   qdrant-client
+    #   requests
 uvicorn==0.20.0
     # via thechangelogbot (pyproject.toml)
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
