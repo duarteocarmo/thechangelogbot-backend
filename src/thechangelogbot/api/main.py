@@ -2,7 +2,7 @@ import pkg_resources
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from thechangelogbot.common.main import hello_world
+from thechangelogbot.engine.main import hello_world
 
 app = FastAPI(
     title="Changelogbot API",

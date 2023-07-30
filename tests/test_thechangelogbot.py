@@ -1,4 +1,4 @@
-from thechangelogbot.common.main import hello_world
+from thechangelogbot.engine.main import hello_world
 
 
 class TestBoilerplate:

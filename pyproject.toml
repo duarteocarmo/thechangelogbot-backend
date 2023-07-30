@@ -34,7 +34,7 @@ dev = [
 ignore = ["E501"]
 select = ["E", "F", "I", "W"]
 line-length = 79
-fixable = ["I"]
+fixable = ["I", "F401"]
 exclude = [".env", ".venv", "venv", "notebooks"]
 show-source = true
 
