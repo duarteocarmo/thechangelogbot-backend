@@ -41,7 +41,7 @@ check:
 
 ## Run api
 api:
-	python -m uvicorn src.api.main:app --reload
+	python -m uvicorn thechangelogbot.api.main:app
 
 ## Build using pip-tools
 build:

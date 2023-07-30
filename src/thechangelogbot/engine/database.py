@@ -136,7 +136,6 @@ def search_qdrant(
         for snippet in snippets:
             print(snippet)
             print("------")
-
     return snippets
 
 

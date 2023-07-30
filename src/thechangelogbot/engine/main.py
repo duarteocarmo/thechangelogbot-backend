@@ -15,6 +15,7 @@ from thechangelogbot.engine.database import (
 )
 from thechangelogbot.engine.embeddings import embed_snippets
 from thechangelogbot.engine.parser import index_snippets
+from thechangelogbot.engine.snippet import Snippet
 
 qdrant_client = QdrantClient(path="qdrant_database")
 qdrant_collection_name = "thechangelogbot"
@@ -24,13 +25,12 @@ model = SentenceTransformer(model_name, device="mps")
 
 def search(
     query_string: str, filters: Optional[dict[str, str]] = None
-) -> None:
-    search_qdrant(
+) -> list[Snippet]:
+    return search_qdrant(
         query=query_string,
         client=qdrant_client,
         collection_name=qdrant_collection_name,
         model=model,
-        show_results=True,
         list_of_filters=filters,
     )
     # results = get_most_relevant_snippets_local(
