@@ -8,7 +8,7 @@ from tqdm import tqdm
 def embed_query(
     query: str,
     model: SentenceTransformer,
-    prefix: str = "query: ",
+    prefix: str,
     normalize_embeddings: bool = True,
 ) -> np.ndarray:
     query_text_with_prefix = [f"{prefix}{query}"]
@@ -22,9 +22,9 @@ def embed_query(
 def embed_snippets(
     snippets: list,
     model: SentenceTransformer,
+    prefix: str,
     batch_size: int = 700,
     normalize_embeddings: bool = True,
-    prefix: str = "passage: ",
 ) -> Iterator[np.ndarray | Any]:
     input_texts = [f"{prefix} {snippet.text}" for snippet in snippets]
 

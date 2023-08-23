@@ -3,8 +3,7 @@ import re
 from typing import Iterator, Optional
 
 from loguru import logger
-
-from thechangelogbot.engine.snippet import Snippet
+from thechangelogbot.index.snippet import Snippet
 
 
 def filter_items(
@@ -14,7 +13,7 @@ def filter_items(
         if snippet.speaker == "Break":
             continue
 
-        elif snippet.num_words < num_words:
+        elif snippet.word_count < num_words:
             continue
         else:
             yield snippet
@@ -23,7 +22,7 @@ def filter_items(
 def parse_episode_text(
     episode_text: str,
     episode_number: int,
-    podcast_name: str,
+    podcast: str,
 ) -> list[Snippet]:
     text = ""
     speaking_items = []
@@ -39,7 +38,7 @@ def parse_episode_text(
             if last_speaker and text:
                 speaking_items.append(
                     Snippet(
-                        podcast_name=podcast_name,
+                        podcast=podcast,
                         episode_number=episode_number,
                         text=text.strip(),
                         speaker=last_speaker,
@@ -56,7 +55,7 @@ def parse_episode_text(
     if last_speaker and text:
         speaking_items.append(
             Snippet(
-                podcast_name=podcast_name,
+                podcast=podcast,
                 episode_number=episode_number,
                 text=text.strip(),
                 speaker=last_speaker,
@@ -79,7 +78,7 @@ def process_podcast_directory(
             yield parse_episode_text(
                 episode_text=episode_text,
                 episode_number=episode_number,
-                podcast_name=directory.name,
+                podcast=directory.name,
             )
 
         except Exception as e:
@@ -98,12 +97,8 @@ def index_snippets(
         if podcast_filter and directory.name not in podcast_filter:
             continue
 
-        podcast_name = directory.name
-        logger.info(f"Processing podcast {podcast_name}...")
+        podcast = directory.name
+        logger.info(f"Processing podcast {podcast}...")
 
-        for items in list(
-            process_podcast_directory(
-                directory=directory,
-            )
-        ):
+        for items in list(process_podcast_directory(directory=directory)):
             yield from items

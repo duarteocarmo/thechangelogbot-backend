@@ -43,6 +43,15 @@ check:
 api:
 	python -m uvicorn thechangelogbot.api.main:app
 
+## Create DB
+create-db:
+	python src/thechangelogbot/util/create_database.py
+
+## Index podcasts
+index-podcasts:
+	python src/thechangelogbot/util/index_podcasts.py
+
+
 ## Build using pip-tools
 build:
 	python -m pip install --upgrade pip

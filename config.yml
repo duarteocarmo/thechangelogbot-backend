@@ -1,0 +1,37 @@
+# model
+model:
+  # name: "BAAI/bge-base-en"
+  # vector_size: 768
+  name: "all-MiniLM-L6-v2"
+  vector_size: 384
+  prefix:
+    indexing: ""
+    querying: ""
+# storage
+mongodb:
+  host: "localhost"
+  port: 27017
+  collection: "docs"
+  index_id: "my-index"
+# indexing
+indexing:
+  transcript_repo_directory: "./transcripts"
+  transcript_git_url: "https://github.com/thechangelog/transcripts"
+  podcasts:
+    - news
+    - brainscience
+    - friends
+    # - practicalai
+    # - shipit
+    # - podcast
+    # - backstage
+    # - founderstalk
+    # - gotime
+    # - afk
+    # - bigtent
+    # - jsparty
+    # - rfc
+    # - spotlight
+api:
+  origins:
+    - "http://localhost:3000"
