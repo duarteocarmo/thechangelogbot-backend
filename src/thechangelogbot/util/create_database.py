@@ -8,7 +8,7 @@ from thechangelogbot.index.database import (
 )
 
 
-def prepare_database(config: dict) -> None:
+def prepare_database(config: dict = config) -> None:
     logger.info("Preparing mongodb.")
 
     mongodb_host = config["mongodb"]["host"]

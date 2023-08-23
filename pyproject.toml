@@ -60,6 +60,10 @@ extend-exclude = '''
 )/
 '''
 
-
 [tool.isort]
 profile = "black"
+
+[project.scripts]
+index-podcasts = "thechangelogbot.util.index_podcasts:index"
+create-database = "thechangelogbot.util.create_database:prepare_database"
+search-database = "thechangelogbot.util.search_database:search"

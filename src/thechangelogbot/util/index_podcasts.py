@@ -15,7 +15,7 @@ from thechangelogbot.index.database import (
 from thechangelogbot.index.parser import index_snippets
 
 
-def index(config: dict) -> None:
+def index(config: dict = config) -> None:
     transcript_repo_directory = config["indexing"]["transcript_repo_directory"]
     transcript_git_url = config["indexing"]["transcript_git_url"]
     podcast_filter = config["indexing"]["podcasts"]
