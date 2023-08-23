@@ -1,6 +1,7 @@
 from typing import Optional
 
 import sentence_transformers
+import superduperdb
 from loguru import logger
 from pymongo import MongoClient
 from superduperdb.container.document import Document
@@ -111,3 +112,32 @@ def search_mongo(
             if k in Snippet.__annotations__.keys()
         }
         yield Snippet(**doc_dict)
+
+
+def search_database(
+    config: dict,
+    query: str,
+    list_of_filters: Optional[dict[str, str]],
+    limit: int = 10,
+) -> None:
+    mongodb_host = config["mongodb"]["host"]
+    mongodb_port = config["mongodb"]["port"]
+    mongodb_collection = config["mongodb"]["collection"]
+    index_id = config["mongodb"]["index_id"]
+
+    client = get_mongo_client(host=mongodb_host, port=mongodb_port)
+    db = superduperdb.superduper(client.documents)
+    collection = Collection(name=mongodb_collection)
+
+    results = list(
+        search_mongo(
+            limit=limit,
+            query=query,
+            db=db,
+            index_id=index_id,
+            collection=collection,
+            list_of_filters=list_of_filters,
+        )
+    )
+
+    return results

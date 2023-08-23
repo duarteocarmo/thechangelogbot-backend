@@ -21,9 +21,9 @@ indexing:
     - news
     - brainscience
     - friends
-    # - practicalai
-    # - shipit
-    # - podcast
+    - practicalai
+    - shipit
+    - podcast
     # - backstage
     # - founderstalk
     # - gotime

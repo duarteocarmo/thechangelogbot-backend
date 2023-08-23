@@ -5,18 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
 from thechangelogbot.conf.load_config import config
-from thechangelogbot.index.database import (
-    fetch_qdrant_client_from_config,
-    get_all_podcasts,
-    search_qdrant,
-)
-
-QDRANT_CLIENT_STR = config["qdrant"]["client_str"]
-QDRANT_CLIENT = fetch_qdrant_client_from_config(QDRANT_CLIENT_STR)
-MODEL = SentenceTransformer(config["model"]["name"], device="mps")
-
+from thechangelogbot.index.database import search_database
 
 app = FastAPI(
     title="Changelogbot API",
@@ -56,20 +46,14 @@ class SearchRequest(BaseModel):
 
 @app.post("/search")
 def search_endpoint(request: SearchRequest):
-    return search_qdrant(
+    return search_database(
+        config=config,
         query=request.query,
-        client=QDRANT_CLIENT,
-        collection_name=config["qdrant"]["collection_name"],
-        model=MODEL,
-        limit=request.limit,
         list_of_filters=request.filters,
-        prefix=config["model"]["prefix"]["querying"],
+        limit=request.limit,
     )
 
 
 @app.get("/podcasts")
-async def podcasts():
-    return get_all_podcasts(
-        client=QDRANT_CLIENT,
-        collection_name=config["qdrant"]["collection_name"],
-    )
+def podcasts():
+    return config["indexing"]["podcasts"]
