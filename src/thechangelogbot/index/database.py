@@ -1,9 +1,13 @@
+import os
+import time
 from typing import Optional
 
 import sentence_transformers
 import superduperdb
+import torch
 from loguru import logger
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from superduperdb.container.document import Document
 from superduperdb.container.listener import Listener
 from superduperdb.container.model import Model
@@ -13,8 +17,39 @@ from superduperdb.ext.numpy.array import array
 from thechangelogbot.index.snippet import Snippet
 
 
-def get_mongo_client(host: str, port: int) -> MongoClient:
+def get_mongo_client(
+    host: str, port: int, server_api: Optional[str] = None
+) -> MongoClient:
+    if server_api is not None and "mongodb" in host:
+        mongo_password = os.getenv("MONGO_PASSWORD")
+
+        if mongo_password is None:
+            raise ValueError("MONGO_PASSWORD is not set")
+
+        host = host.replace("<password>", mongo_password)
+        client = MongoClient(host, server_api=ServerApi(server_api))
+        client.admin.command("ping")
+        logger.info(
+            "Pinged your deployment. You successfully connected to MongoDB!"
+        )
+        return client
+
     return MongoClient(host=host, port=port)
+
+
+def get_superduperdb_components(config: dict) -> tuple:
+    mongodb_host = config["mongodb"]["host"]
+    mongodb_port = config["mongodb"]["port"]
+    mongodb_collection = config["mongodb"]["collection"]
+    mongodb_server_api = config["mongodb"].get("server_api", None)
+
+    client = get_mongo_client(
+        host=mongodb_host, port=mongodb_port, server_api=mongodb_server_api
+    )
+    db = superduperdb.superduper(client.documents)
+    collection = Collection(name=mongodb_collection)
+
+    return db, collection
 
 
 def prepare_mongo(
@@ -24,8 +59,17 @@ def prepare_mongo(
     vector_size: int,
     index_id: str,
     key: str,
-    device: str = "cpu",
 ) -> None:
+    device = (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
+
+    logger.info(f"Using device {device} for indexing.")
+
     model = Model(
         identifier=model_id,
         object=sentence_transformers.SentenceTransformer(
@@ -92,6 +136,7 @@ def search_mongo(
 
             q_filter[filter_key] = {"$regex": filter_value}
 
+    start_time = time.time()
     if q_filter is not None:
         logger.info(f"Filtering by {q_filter}")
         cur = db.execute(
@@ -113,21 +158,33 @@ def search_mongo(
         }
         yield Snippet(**doc_dict)
 
+    end_time = time.time()
+    logger.info(f"Query took {end_time - start_time} seconds")
+
 
 def search_database(
     config: dict,
     query: str,
-    list_of_filters: Optional[dict[str, str]],
+    initialize: bool = True,
+    db=None,
+    collection: Optional[Collection] = None,
+    list_of_filters: Optional[dict[str, str]] = None,
     limit: int = 10,
 ) -> None:
-    mongodb_host = config["mongodb"]["host"]
-    mongodb_port = config["mongodb"]["port"]
-    mongodb_collection = config["mongodb"]["collection"]
     index_id = config["mongodb"]["index_id"]
 
-    client = get_mongo_client(host=mongodb_host, port=mongodb_port)
-    db = superduperdb.superduper(client.documents)
-    collection = Collection(name=mongodb_collection)
+    if initialize is False and db is None:
+        raise ValueError("db must be provided if initialize is False")
+
+    if initialize is False and collection is None:
+        raise ValueError("client must be provided if initialize is False")
+
+    if initialize is True:
+        if db is not None or collection is not None:
+            raise ValueError(
+                "You are initializing the database, but you already provided db and collection"
+            )
+        db, collection = get_superduperdb_components(config)
 
     results = list(
         search_mongo(

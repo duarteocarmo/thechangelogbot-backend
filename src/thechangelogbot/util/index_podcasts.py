@@ -35,8 +35,11 @@ def index(config: dict = config) -> None:
     mongodb_host = config["mongodb"]["host"]
     mongodb_port = config["mongodb"]["port"]
     mongodb_collection = config["mongodb"]["collection"]
+    mongodb_server_api = config["mongodb"].get("server_api", None)
 
-    client = get_mongo_client(host=mongodb_host, port=mongodb_port)
+    client = get_mongo_client(
+        host=mongodb_host, port=mongodb_port, server_api=mongodb_server_api
+    )
     db = superduperdb.superduper(client.documents)
     collection = Collection(name=mongodb_collection)
 

@@ -14,11 +14,15 @@ def prepare_database(config: dict = config) -> None:
     mongodb_host = config["mongodb"]["host"]
     mongodb_port = config["mongodb"]["port"]
     mongodb_collection = config["mongodb"]["collection"]
+    mongodb_server_api = config["mongodb"].get("server_api", None)
     index_id = config["mongodb"]["index_id"]
     model_id = config["model"]["name"]
     vector_size = config["model"]["vector_size"]
 
-    client = get_mongo_client(host=mongodb_host, port=mongodb_port)
+    client = get_mongo_client(
+        host=mongodb_host, port=mongodb_port, server_api=mongodb_server_api
+    )
+
     db = superduperdb.superduper(client.documents)
     collection = Collection(name=mongodb_collection)
 
@@ -29,7 +33,6 @@ def prepare_database(config: dict = config) -> None:
         vector_size=vector_size,
         index_id=index_id,
         key="text",
-        device="mps",
     )
     logger.info("Prepared mongodb.")
 
