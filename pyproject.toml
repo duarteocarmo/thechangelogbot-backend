@@ -21,12 +21,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "black>=22.10.0",
-  "pytest>=7.2.0",
-  "pytest-cov>=4.0.0",
-  "ruff>=0.0.219",
-  "watchdog>=2.1.9",
-  "httpx>=0.23.2",
+  "black",
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "watchdog",
+  "httpx",
   "isort",
 ]
 
