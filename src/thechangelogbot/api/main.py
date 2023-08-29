@@ -6,7 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from thechangelogbot.conf.load_config import config
-from thechangelogbot.index.database import search_database
+from thechangelogbot.index.database import (
+    get_superduperdb_components,
+    search_database,
+)
+
+DATABASE, COLLECTION = get_superduperdb_components(config)
+
 
 app = FastAPI(
     title="Changelogbot API",
@@ -23,7 +29,7 @@ app.add_middleware(
 
 
 @app.get("/")
-async def root():
+def root():
     return RedirectResponse("/docs")
 
 
@@ -51,6 +57,9 @@ def search_endpoint(request: SearchRequest):
         query=request.query,
         list_of_filters=request.filters,
         limit=request.limit,
+        db=DATABASE,
+        collection=COLLECTION,
+        initialize=False,
     )
 
 
