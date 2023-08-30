@@ -1,9 +1,11 @@
+import time
 from typing import Optional
 
 import pkg_resources
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
+from loguru import logger
 from pydantic import BaseModel
 from thechangelogbot.conf.load_config import config
 from thechangelogbot.index.database import (
@@ -66,3 +68,44 @@ def search_endpoint(request: SearchRequest):
 @app.get("/podcasts")
 def podcasts():
     return config["indexing"]["podcasts"]
+
+
+class ChatRequest(BaseModel):
+    query: str
+    speaker: str
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "query": "What is the best model I should use?",
+                    "speaker": "Adam Stacoviak",
+                }
+            ]
+        }
+    }
+
+
+@app.get("/speakers")
+def speakers():
+    return ["Adam Stacoviak", "Benjamin Dreyer"]
+
+
+def fake_chat_streamer(query: str, speaker: str):
+    logger.info("Starting to yield...")
+    example_response = f"{speaker}: {query}" * 2
+    for word in example_response.split(" "):
+        to_yield = word + " "
+        yield to_yield
+        logger.info(to_yield)
+        time.sleep(0.3)
+    logger.info("Finished!")
+
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    logger.info(f"Query: {request}")
+    return StreamingResponse(
+        fake_chat_streamer(query=request.query, speaker=request.speaker),
+        media_type="text/plain",
+    )
