@@ -1,5 +1,6 @@
 import os
 import time
+from functools import cache
 from typing import Optional
 
 import sentence_transformers
@@ -115,6 +116,22 @@ def get_uploaded_hashes(db, collection: Collection):
     ]
 
 
+@cache
+def get_speakers(
+    database: superduperdb.superduper, collection_name
+) -> list[str]:
+    collection = Collection(name=collection_name)
+    unique_speakers = {
+        s["speaker"]
+        for s in database.execute(collection.find({}, {"speaker": 1}))
+    }
+    unique_speakers = [
+        speaker for speaker in unique_speakers if len(speaker.split(" ")) == 2
+    ]
+    unique_speakers.sort()
+    return unique_speakers
+
+
 def search_mongo(
     query: str,
     db,
@@ -170,7 +187,7 @@ def search_database(
     collection: Optional[Collection] = None,
     list_of_filters: Optional[dict[str, str]] = None,
     limit: int = 10,
-) -> None:
+) -> list[Snippet]:
     index_id = config["mongodb"]["index_id"]
 
     if initialize is False and db is None:

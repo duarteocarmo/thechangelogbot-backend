@@ -17,18 +17,11 @@ dependencies = [
   "loguru",
   "numpy",
   "tqdm",
+  "tenacity",
 ]
 
 [project.optional-dependencies]
-dev = [
-  "black",
-  "pytest",
-  "pytest-cov",
-  "ruff",
-  "watchdog",
-  "httpx",
-  "isort",
-]
+dev = ["black", "pytest", "pytest-cov", "ruff", "watchdog", "httpx", "isort"]
 
 [tool.ruff]
 ignore = ["E501"]

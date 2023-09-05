@@ -1,4 +1,3 @@
-import time
 from typing import Optional
 
 import pkg_resources
@@ -8,7 +7,9 @@ from fastapi.responses import RedirectResponse, StreamingResponse
 from loguru import logger
 from pydantic import BaseModel
 from thechangelogbot.conf.load_config import config
+from thechangelogbot.index.chat import respond_to_query
 from thechangelogbot.index.database import (
+    get_speakers,
     get_superduperdb_components,
     search_database,
 )
@@ -88,24 +89,21 @@ class ChatRequest(BaseModel):
 
 @app.get("/speakers")
 def speakers():
-    return ["Adam Stacoviak", "Benjamin Dreyer"]
-
-
-def fake_chat_streamer(query: str, speaker: str):
-    logger.info("Starting to yield...")
-    example_response = f"{speaker}: {query}" * 2
-    for word in example_response.split(" "):
-        to_yield = word + " "
-        yield to_yield
-        logger.info(to_yield)
-        time.sleep(0.3)
-    logger.info("Finished!")
+    return get_speakers(
+        database=DATABASE, collection_name=config["mongodb"]["collection"]
+    )
 
 
 @app.post("/chat")
 def chat(request: ChatRequest):
     logger.info(f"Query: {request}")
     return StreamingResponse(
-        fake_chat_streamer(query=request.query, speaker=request.speaker),
+        respond_to_query(
+            query=request.query,
+            speaker=request.speaker,
+            db=DATABASE,
+            config=config,
+            collection=COLLECTION,
+        ),
         media_type="text/plain",
     )

@@ -19,8 +19,8 @@ indexing:
     - news
     - friends
     # - brainscience
-    # - practicalai
-    # - shipit
+    - practicalai
+    - shipit
     # - podcast
     # - gotime
     # - backstage
