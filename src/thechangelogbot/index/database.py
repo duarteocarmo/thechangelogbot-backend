@@ -5,7 +5,6 @@ from typing import Optional
 
 import sentence_transformers
 import superduperdb
-import torch
 from loguru import logger
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -61,13 +60,15 @@ def prepare_mongo(
     index_id: str,
     key: str,
 ) -> None:
-    device = (
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
-    )
+    # TODO REPLACE THIS
+    device = "cpu"
+    # device = (
+    #     "cuda"
+    #     if torch.cuda.is_available()
+    #     else "mps"
+    #     if torch.backends.mps.is_available()
+    #     else "cpu"
+    # )
 
     logger.info(f"Using device {device} for indexing.")
 

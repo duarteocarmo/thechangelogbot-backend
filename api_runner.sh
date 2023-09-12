@@ -6,7 +6,7 @@ while true; do
   uvicorn thechangelogbot.api.main:app --host 0.0.0.0 --port 8000 &
   API_PID=$!
   # sleep every 5 minutes
-  sleep 300
+  sleep 1800
   kill $API_PID
   echo "Running indexer..."
   index-podcasts

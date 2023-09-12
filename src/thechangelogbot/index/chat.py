@@ -14,17 +14,6 @@ if not openai.api_key:
     raise ValueError("OPENAI_API_KEY is not set")
 
 
-# prompt_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
-
-# {context}
-
-# Question: {question}
-# Helpful Answer:"""
-# PROMPT = PromptTemplate(
-#     template=prompt_template, input_variables=["context", "question"]
-# )
-
-
 @retry(wait=wait_random_exponential(min=1, max=40), stop=stop_after_attempt(3))
 def get_person_response(
     question: str,
