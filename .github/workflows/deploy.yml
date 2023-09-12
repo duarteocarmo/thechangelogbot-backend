@@ -38,6 +38,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: 22
+        envs: MONGO_PASSWORD,OPENAI_API_KEY
         script: |
           cd projects/thechangelogbot-backend
           docker compose down
