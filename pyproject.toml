@@ -18,6 +18,7 @@ dependencies = [
   "numpy",
   "tqdm",
   "tenacity",
+  "slowapi"
 ]
 
 [project.optional-dependencies]

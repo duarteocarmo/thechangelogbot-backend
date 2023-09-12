@@ -52,6 +52,8 @@ dask[distributed]==2023.8.1
     #   superduperdb
 decorator==5.1.1
     # via retry
+deprecated==1.2.14
+    # via limits
 dill==0.3.7
     # via superduperdb
 distributed==2023.8.1
@@ -103,6 +105,8 @@ idna==3.4
     #   yarl
 importlib-metadata==6.8.0
     # via dask
+importlib-resources==6.0.1
+    # via limits
 itsdangerous==2.1.2
     # via flask
 jinja2==3.1.2
@@ -120,6 +124,8 @@ joblib==1.3.2
     #   scikit-learn
 lancedb==0.1.16
     # via superduperdb
+limits==3.6.0
+    # via slowapi
 locket==1.0.0
     # via
     #   distributed
@@ -165,6 +171,7 @@ packaging==23.1
     #   dask
     #   distributed
     #   huggingface-hub
+    #   limits
     #   transformers
 pandas==2.0.3
     # via
@@ -244,6 +251,8 @@ sentencepiece==0.1.99
     # via sentence-transformers
 six==1.16.0
     # via python-dateutil
+slowapi==0.1.8
+    # via thechangelogbot (pyproject.toml)
 smmap==5.0.0
     # via gitdb
 sniffio==1.3.0
@@ -298,6 +307,7 @@ typing-extensions==4.7.1
     #   fastapi
     #   filelock
     #   huggingface-hub
+    #   limits
     #   pydantic
     #   pydantic-core
     #   readerwriterlock
@@ -317,6 +327,8 @@ werkzeug==2.3.7
     # via
     #   flask
     #   superduperdb
+wrapt==1.15.0
+    # via deprecated
 yarl==1.9.2
     # via aiohttp
 zict==3.0.0
