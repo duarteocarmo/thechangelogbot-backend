@@ -32,4 +32,5 @@ indexing:
     # - spotlight
 api:
   origins:
-    - "http://localhost:3000"
+    - http://localhost:3000
+    - https://thechangelogchat.vercel.app
