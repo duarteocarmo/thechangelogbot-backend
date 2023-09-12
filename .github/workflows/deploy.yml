@@ -36,7 +36,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: 22
         script: |
-          cd projects/thechangelog-backend  
+          cd projects/thechangelogbot-backend
           docker compose down
           docker compose up --force-recreate --build -d
           docker ps
