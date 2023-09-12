@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "9090:8000"
     restart: always
     environment:
       - MONGO_PASSWORD=${MONGO_PASSWORD}
