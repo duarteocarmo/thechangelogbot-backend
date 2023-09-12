@@ -30,6 +30,9 @@ jobs:
 
     - uses: appleboy/ssh-action@master
       name: start docker container as deamon 
+      env:
+        MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
