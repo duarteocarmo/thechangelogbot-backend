@@ -34,3 +34,5 @@ api:
   origins:
     - http://localhost:3000
     - https://thechangelogchat.vercel.app
+    - https://changelog.duarteocarmo.com
+
