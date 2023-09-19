@@ -1,13 +1,16 @@
 .PHONY: install clean lint format 
 
-## Install for production
-install:
-	@echo ">> Installing dependencies"
+## Upgrade pip
+upgrade-pip:
 	python -m pip install --upgrade pip
+
+## Install for production
+install: upgrade-pip
+	@echo ">> Installing dependencies"
 	python -m pip install -e .
 
 ## Install for development 
-install-dev: install
+install-dev: upgrade-pip
 	python -m pip install -e ".[dev]"
 
 ## Delete all temporary files

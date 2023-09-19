@@ -131,3 +131,5 @@ dmypy.json
 qdrant_database/
 transcripts/
 ola.py
+pyproject.toml
+pyproject.toml

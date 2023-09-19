@@ -5,6 +5,7 @@ from typing import Optional
 
 import sentence_transformers
 import superduperdb
+import torch
 from loguru import logger
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
@@ -60,20 +61,18 @@ def prepare_mongo(
     index_id: str,
     key: str,
 ) -> None:
-    # TODO REPLACE THIS
-    device = "cpu"
-    # device = (
-    #     "cuda"
-    #     if torch.cuda.is_available()
-    #     else "mps"
-    #     if torch.backends.mps.is_available()
-    #     else "cpu"
-    # )
+    device = (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
 
     logger.info(f"Using device {device} for indexing.")
 
     model = Model(
-        identifier=model_id,
+        identifier="my-model",
         object=sentence_transformers.SentenceTransformer(
             model_id, device=device
         ),
@@ -138,10 +137,15 @@ def search_mongo(
     db,
     index_id: str,
     collection: Collection,
+    query_prefix: Optional[str] = None,
     limit: int = 4,
     list_of_filters: Optional[dict[str, str]] = None,
 ) -> list[Snippet]:
     q_filter = None
+
+    if query_prefix is not None:
+        logger.info(f"Using query prefix '{query_prefix}'")
+        query = query_prefix + query
 
     if list_of_filters is not None:
         filtering_fields = [a for a in Snippet.__annotations__.keys()]
@@ -208,6 +212,7 @@ def search_database(
         search_mongo(
             limit=limit,
             query=query,
+            query_prefix=config["model"]["prefix"].get("querying", None),
             db=db,
             index_id=index_id,
             collection=collection,

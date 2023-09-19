@@ -2,10 +2,7 @@ import superduperdb
 from loguru import logger
 from superduperdb.db.mongodb.query import Collection
 from thechangelogbot.conf.load_config import config
-from thechangelogbot.index.database import (
-    get_mongo_client,
-    prepare_mongo,
-)
+from thechangelogbot.index.database import get_mongo_client, prepare_mongo
 
 
 def prepare_database(config: dict = config) -> None:
@@ -22,6 +19,14 @@ def prepare_database(config: dict = config) -> None:
     client = get_mongo_client(
         host=mongodb_host, port=mongodb_port, server_api=mongodb_server_api
     )
+
+    if input("This will drop existing collections, continue? (y/n)") != "y":
+        return
+
+    for db_name in client.list_database_names():
+        for collection_name in client[db_name].list_collection_names():
+            client[db_name].drop_collection(collection_name)
+            logger.info(f"Dropped collection {collection_name}")
 
     db = superduperdb.superduper(client.documents)
     collection = Collection(name=mongodb_collection)
