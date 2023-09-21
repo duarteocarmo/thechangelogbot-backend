@@ -79,6 +79,7 @@ def prepare_mongo(
         encoder=array("float32", shape=(vector_size,)),
         predict_method="encode",
         batch_predict=True,
+        model_to_device_method="to",
     )
 
     try:
