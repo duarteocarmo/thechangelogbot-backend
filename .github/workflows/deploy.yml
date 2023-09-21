@@ -42,5 +42,5 @@ jobs:
         envs: MONGO_PASSWORD,OPENAI_API_KEY
         script: |
           cd projects/thechangelogbot-backend
-          docker-compose down && docker-compose build --no-cache && docker-compose up -d
+          docker compose down && docker compose build --no-cache && docker compose up -d
           docker ps
