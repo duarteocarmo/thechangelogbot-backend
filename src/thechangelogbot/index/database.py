@@ -11,10 +11,12 @@ from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 from superduperdb.container.document import Document
 from superduperdb.container.listener import Listener
-from superduperdb.container.model import Model
+
+# from superduperdb.container.model import Model
 from superduperdb.container.vector_index import VectorIndex
 from superduperdb.db.mongodb.query import Collection
 from superduperdb.ext.numpy.array import array
+from superduperdb.ext.sentence_transformer import SentenceTransformer
 from thechangelogbot.index.snippet import Snippet
 
 
@@ -71,7 +73,7 @@ def prepare_mongo(
 
     logger.info(f"Using device {device} for indexing.")
 
-    model = Model(
+    model = SentenceTransformer(
         identifier="my-model",
         object=sentence_transformers.SentenceTransformer(
             model_id, device=device
@@ -79,7 +81,6 @@ def prepare_mongo(
         encoder=array("float32", shape=(vector_size,)),
         predict_method="encode",
         batch_predict=True,
-        model_to_device_method="to",
     )
 
     try:
@@ -220,5 +221,4 @@ def search_database(
             list_of_filters=list_of_filters,
         )
     )
-
     return results
