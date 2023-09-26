@@ -7,11 +7,11 @@ upgrade-pip:
 ## Install for production
 install: upgrade-pip
 	@echo ">> Installing dependencies"
-	python -m pip install -e .
+	python -m pip install -e . --upgrade
 
 ## Install for development 
 install-dev: upgrade-pip
-	python -m pip install -e ".[dev]"
+	python -m pip install -e ".[dev]" --upgrade
 
 ## Delete all temporary files
 clean:
