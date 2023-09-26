@@ -18,10 +18,10 @@ indexing:
   transcript_git_url: "https://github.com/thechangelog/transcripts"
   podcasts:
     - news
-    # - friends
-    # - practicalai
+    - friends
+    - practicalai
+    - podcast
     # - shipit
-    # - podcast
     # - brainscience
     # - gotime
     # - backstage
