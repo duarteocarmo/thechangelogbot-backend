@@ -25,6 +25,7 @@ def get_person_response(
         f"Your name is {speaker}. Your goal is to answer a specific user question."
         " You will be given some context related to the question. This context are snippets of things you have said in the past."
         " Answer the question using the context, and use the same tone as the context. Your answer should be 100 words or less."
+        " If the answer is not specified in the context, then respond with 'I have not mentioned that topic.'"
     )
     context_string = "\n".join([snippet.text for snippet in context])
     user_prompt = f"CONTEXT\n---------\n{context_string}\n\nQUESTION\n--------\n{question}"
@@ -36,7 +37,7 @@ def get_person_response(
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=300,
+        max_tokens=250,
     )
 
     for chunk in response:
@@ -62,6 +63,7 @@ def respond_to_query(
         search_mongo(
             limit=limit,
             query=query,
+            query_prefix=config["model"]["prefix"].get("querying", None),
             db=db,
             index_id=index_id,
             collection=collection,
