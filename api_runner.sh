@@ -8,7 +8,7 @@ while true; do
   echo "Done!"
   API_PID=$!
   # sleep every 5 minutes
-  sleep 1800
+  sleep 86400
   kill $API_PID
   echo "Running indexer..."
   index-podcasts
