@@ -21,14 +21,14 @@ indexing:
     - friends
     - practicalai
     - podcast
-    # - shipit
+    - shipit
+    - gotime
+    - jsparty
     # - brainscience
-    # - gotime
     # - backstage
     # - founderstalk
     # - afk
     # - bigtent
-    # - jsparty
     # - rfc
     # - spotlight
 api:
