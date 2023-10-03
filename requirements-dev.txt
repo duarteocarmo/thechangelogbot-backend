@@ -278,6 +278,8 @@ pyyaml==6.0.1
     #   distributed
     #   huggingface-hub
     #   transformers
+ratelimiter==1.2.0.post0
+    # via thechangelogbot (pyproject.toml)
 readerwriterlock==1.0.9
     # via superduperdb
 regex==2023.8.8
