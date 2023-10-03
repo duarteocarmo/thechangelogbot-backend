@@ -13,7 +13,7 @@ dependencies = [
   "pandas",
   "GitPython",
   "sentence-transformers",
-  "superduperdb @ git+https://github.com/SuperDuperDB/superduperdb@main",
+  "superduperdb @ git+https://github.com/SuperDuperDB/superduperdb@3ab3f45dead398e349da9792fea866a62bed71c8",
   "loguru",
   "numpy",
   "tqdm",
