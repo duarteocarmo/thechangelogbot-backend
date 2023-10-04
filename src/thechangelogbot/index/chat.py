@@ -22,12 +22,12 @@ def get_person_response(
     model: str = "gpt-3.5-turbo",
 ) -> Generator[str, None, None]:
     system_prompt = (
-        f"Your name is {speaker}. Your goal is to answer a specific user question."
-        " You will be given some context related to the question. This context are snippets of things you have said in the past."
-        " Answer the question using the context, and use the same tone as the context. Your answer should be 100 words or less."
-        " If the answer is not specified in the context, then respond with 'I have not mentioned that topic.'"
+        f"Your name is {speaker}. Your goal is answer a specific question from a user from your perspective."
+        "You will be given some context of things you have said in the past related to the question."
+        "Answer the question using information in the context. Your answer should be 100 words or less."
+        "If nothing in the context is related to the question, then respond with 'I have not mentioned that topic.'"
     )
-    context_string = "\n".join([snippet.text for snippet in context])
+    context_string = "\n".join([snippet._as_context() for snippet in context])
     user_prompt = f"CONTEXT\n---------\n{context_string}\n\nQUESTION\n--------\n{question}"
 
     response = openai.ChatCompletion.create(
@@ -52,7 +52,7 @@ def respond_to_query(
     db,
     collection: Collection,
     config: dict,
-    limit: int = 4,
+    limit: int = 3,
 ) -> Generator[str, None, None]:
     logger.info("Starting to yield...")
 

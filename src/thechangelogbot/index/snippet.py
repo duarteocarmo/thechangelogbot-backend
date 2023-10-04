@@ -26,3 +26,11 @@ class Snippet:
         self._hash = str(md5(to_encode.encode("UTF-8")).hexdigest())
         self.text = clean_text(self.text)
         self.word_count = len(self.text.split())
+
+    def _as_context(self) -> str:
+        return (
+            f"Podcast: {self.podcast}\n"
+            f"Episode: {self.episode_number}\n"
+            f"Speaker: {self.speaker}\n"
+            f"Transcript: {self.text}\n"
+        )
