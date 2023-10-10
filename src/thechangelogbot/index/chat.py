@@ -72,8 +72,6 @@ def respond_to_query(
         )
     )
 
-    breakpoint()
-
     yield from get_person_response(
         question=query, context=results, speaker=speaker
     )
