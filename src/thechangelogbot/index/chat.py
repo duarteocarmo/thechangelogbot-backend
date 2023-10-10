@@ -25,7 +25,8 @@ def get_person_response(
         f"Your name is {speaker}. Your goal is answer a specific question from a user from your perspective."
         "You will be given some context of things you have said in the past related to the question."
         "Answer the question using information in the context. Your answer should be 100 words or less."
-        "If nothing in the context is related to the question, then respond with 'I have not mentioned that topic.'"
+        "If nothing in the context is related to the question, then respond with 'I'm not sure', followed "
+        "by a short summary of the context that is related to the question."
     )
     context_string = "\n".join([snippet._as_context() for snippet in context])
     user_prompt = f"CONTEXT\n---------\n{context_string}\n\nQUESTION\n--------\n{question}"
@@ -70,6 +71,8 @@ def respond_to_query(
             list_of_filters=list_of_filters,
         )
     )
+
+    breakpoint()
 
     yield from get_person_response(
         question=query, context=results, speaker=speaker
